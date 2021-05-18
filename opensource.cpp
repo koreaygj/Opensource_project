@@ -145,6 +145,7 @@ int main()
       break;
     case '7':
       cout << "Exiting, have a good day";
+      cout << endl;
       exit(0);
     }
   } while (ch != '6');
