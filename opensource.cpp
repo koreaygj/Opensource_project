@@ -2,7 +2,7 @@
 #include <fstream>
 #include <iomanip>
 #include <cstring>
-//hello
+
 using namespace std;
 //Member class
 class Member
