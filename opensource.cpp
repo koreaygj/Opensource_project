@@ -10,12 +10,14 @@ class Member
   char name[50];
   int student_number;
   int study_group;
+  char regist_date[50];
 
 public:
   void signup();
   int login() const;
-  char check_sg() const;
+  char check_sg();
   void show_sg() const;
+  int assignment_sg() const;
   int m_group;
 };
 
@@ -27,6 +29,8 @@ void Member::signup()
   cin >> student_number;
   cout << "Chose your study group [Put number ex) 1 -> Gruop A, Maximum is 5]:" << endl;
   cin >> study_group;
+  cout << "Record your regist date: " << endl;
+  cin >> regist_date;
   cout << "welcome " << name << endl;
 }
 
@@ -34,7 +38,7 @@ int Member::login() const
 {
   return student_number;
 }
-char Member::check_sg() const
+char Member::check_sg()
 {
   char group_name[100];
   switch (study_group)
@@ -63,11 +67,17 @@ void Member::show_sg() const
   cout << "\n Your study group: " << study_group;
 }
 
+int Member::assignment_sg() const
+{
+  return study_group;
+}
+
 //assignment class
 class assignment
 {
   int study_group;
-  char assginment[50];
+  char assginment[200];
+  char date[50];
 
 public:
   void signup();
@@ -92,8 +102,10 @@ void assignment::display_as()
 }
 void assignment::regist_new()
 {
-  cout << "\ntEnter your study group assignment: " << endl;
+  cout << "\nEnter your study group assignment: " << endl;
   cin >> assginment;
+  cout << "\nEnter record date: " << endl;
+  cin >> date;
 }
 
 void new_account();
@@ -104,6 +116,7 @@ void regist_new();
 void modify_as(int n);
 void delete_rd(int n);
 void delete_as(int n);
+int m_sg;
 
 int main()
 {
@@ -208,7 +221,7 @@ void log_in(int n)
     if (n == mem.login())
     {
       cout << "Welcome " << mem.m_group << endl;
-      hw.m_sg = mem.check_sg();
+      m_sg = mem.assignment_sg();
       break;
     }
     else if (n != mem.login())
@@ -223,6 +236,7 @@ void log_in(int n)
 //check study group
 void display_sg(int n)
 {
+  assignment hw;
   Member mem;
   ifstream iFile;
   iFile.open("Member.dat", ios::binary);
@@ -238,13 +252,13 @@ void display_sg(int n)
   {
     if (n == mem.login())
     {
-      //mem.show_sg();
+      mem.check_sg();
       flag = true;
     }
+    iFile.close();
+    if (flag == false)
+      cout << "\n\nrecord does not exist";
   }
-  iFile.close();
-  if (flag == false)
-    cout << "\n\nrecord does not exist";
   cin.ignore();
   cin.get();
 }
@@ -283,44 +297,47 @@ void regist_new()
   Member mem;
   assignment hw;
   ofstream oFile;
-  switch (hw.m_sg)
+  switch (m_sg)
   {
   case 1:
     oFile.open("Group_A.dat", ios::binary | ios::app);
+    cout << "\tRecording in Group_A" << endl;
     hw.regist_new();
     oFile.write(reinterpret_cast<char *>(&mem), sizeof(Member));
     oFile.close();
     break;
   case 2:
     oFile.open("Group_B.dat", ios::binary | ios::app);
+    cout << "\tRecording in Group_B" << endl;
     hw.regist_new();
     oFile.write(reinterpret_cast<char *>(&mem), sizeof(Member));
     oFile.close();
     break;
   case 3:
     oFile.open("Group_C.dat", ios::binary | ios::app);
+    cout << "\tRecording in Group_C" << endl;
     hw.regist_new();
     oFile.write(reinterpret_cast<char *>(&mem), sizeof(Member));
     oFile.close();
     break;
   case 4:
     oFile.open("Group_D.dat", ios::binary | ios::app);
+    cout << "\tRecording in Group_D" << endl;
     hw.regist_new();
     oFile.write(reinterpret_cast<char *>(&mem), sizeof(Member));
     oFile.close();
     break;
   case 5:
     oFile.open("Group_E.dat", ios::binary | ios::app);
+    cout << "\tRecording in Group_E" << endl;
     hw.regist_new();
     oFile.write(reinterpret_cast<char *>(&mem), sizeof(Member));
     oFile.close();
     break;
-  default:
-    cout << "\n\nAssignment is registed successfully" << endl;
-    cin.ignore();
-    cin.get();
-    break;
   }
+  cout << "\n\nAssignment is registed successfully" << endl;
+  cin.ignore();
+  cin.get();
 }
 //modify registed assignment
 void modify_as(int n)
